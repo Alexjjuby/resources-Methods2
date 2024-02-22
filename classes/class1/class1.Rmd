@@ -11,8 +11,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 
 # Setting my root directory to where I have my /data folder etc. (easier for me, but personalise to your own way of working)
-knitr::opts_knit$set(root.dir = "/Users/pernillebrams/Desktop/AARHUS_UNIVERSITY/instructor_2024/methods-2")
-
+knitr::opts_knit$set(root.dir = "~/")
+getwd()
 ```
 
 ### Setup
@@ -80,7 +80,7 @@ ggplot(hibbs, aes(x = growth, y = vote)) +
 These first exercises are about learning what simulating data is for.
 
 ## Ex. 0.a): In 1-2 sentences (discuss w group or reflect on your own): What does it mean to simulate data?
-
+Simulation of data consists of creating data that can be used and follows the required assumptions of the model.
 ## Ex. 0.b): Specify some amount of data points (n), some mean and some sd, and use rnorm() to simulate this amount of data points based off of the mean and sd you've set. 
 ```{r}
 set.seed(1998) # setting a seed (in the best year ever??) - this way, even though it's random, you'll get reproducible results next time you run this with this seed
@@ -88,13 +88,35 @@ set.seed(1998) # setting a seed (in the best year ever??) - this way, even thoug
 # rnorm() works like: my_simulated_data <- rnorm(n, mean, sd) - now you go!
 
 # your code here
+my_simulated_data <- data.frame(asdf = rnorm(n = 100, mean = 30, sd = 18))
+my_simulated_data <- my_simulated_data %>% mutate(ordinal_nr = row_number())
+print(my_simulated_data)
 ```
 
-## Ex. 0.c) Talk with your group and note in 1-2 sentences: What do we know of the data drawn from the rnorm()? 
+## Ex. 0.c) Talk with your group and note in 1-2 sentences: What do we know of the data drawn from the rnorm()? sd, mean, nr.data
 
 ## Ex. 0.d) Data are worth 10000% more if visualised, so let's visualise. Using ggplot, make a histogram visualising the data you simulated.
+```{r}
+# Basic plot with ggplot2
+ggplot(my_simulated_data, aes(x = asdf,y = ordinal_nr))+
+  geom_histogram(
+    stat = 'summary',
+    fun = mean,
+    width = 0.5
+  ) +  # Add points
+  theme_minimal()
+```
 
 ## Ex. 0.e) Calculate the empirical mean and empirical sd (just fancy words for "calculate the mean and sd of the simulated data") - are they different from the ones you've set? and why might that be?
+```{r}
+e_mean <- mean(my_simulated_data$asdf)
+print(e_mean)
+e_sd <- sd(my_simulated_data$asdf)
+print(e_sd)
+# They are different, both are higher than the specified value with an average difference of 2.2
+# The simulated data has not a sample size large enough, as accuracy increases with size.
+```
+
 
 ## Exercises from ROS
 ### Ex. 1.2
